@@ -1,6 +1,6 @@
 package com.pieropan.kafka.config;
 
-import com.pieropan.kafka.dto.PeditoDto;
+import com.pieropan.kafka.dto.PedidoDTO;
 import lombok.AllArgsConstructor;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -22,7 +22,7 @@ public class ProducerConfigKafka {
     private KafkaProperties kafkaProperties;
 
     @Bean
-    public ProducerFactory<String, PeditoDto> producerFactory() {
+    public ProducerFactory<String, PedidoDTO> producerFactory() {
         Map<String, Object> config = new HashMap<>();
 
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
@@ -33,7 +33,7 @@ public class ProducerConfigKafka {
     }
 
     @Bean
-    public KafkaTemplate<String, PeditoDto> kafkaTemplate() {
+    public KafkaTemplate<String, PedidoDTO> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }

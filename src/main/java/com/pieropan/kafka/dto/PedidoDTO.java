@@ -1,4 +1,4 @@
 package com.pieropan.kafka.dto;
 
-public class PeditoDto {
+public class PedidoDTO {
 }
