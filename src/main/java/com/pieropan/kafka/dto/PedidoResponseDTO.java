@@ -2,16 +2,14 @@ package com.pieropan.kafka.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class PedidoDTO {
+@EqualsAndHashCode(callSuper = true)
+public class PedidoResponseDTO extends PedidoDTO {
 
-    private int numero;
-
-    private String nome;
-
-    private Long valor;
+    private Long id;
 }
