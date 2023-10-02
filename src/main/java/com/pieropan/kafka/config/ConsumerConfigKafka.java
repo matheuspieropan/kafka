@@ -30,6 +30,11 @@ public class ConsumerConfigKafka {
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         config.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
 
+        // quantidade máxima de registros (ou mensagens) que um consumidor
+        // Kafka pode buscar em uma única chamada para o broker Kafka durante uma operação de polling
+        config.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "100");
+        config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+
         return new DefaultKafkaConsumerFactory<>(config);
     }
 
