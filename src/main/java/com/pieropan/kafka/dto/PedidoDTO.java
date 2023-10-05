@@ -13,5 +13,5 @@ public class PedidoDTO {
 
     private String nome;
 
-    private Long valor;
+    private Double valor;
 }
