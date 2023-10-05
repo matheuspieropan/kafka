@@ -1,5 +1,6 @@
 package com.pieropan.kafka.service;
 
+import com.pieropan.kafka.avro.PedidoRecord;
 import com.pieropan.kafka.dto.PedidoDTO;
 import com.pieropan.kafka.dto.PedidoResponseDTO;
 import com.pieropan.kafka.entity.Pedido;
@@ -18,15 +19,23 @@ public class PedidoService {
     private PedidoRepository pedidoRepository;
 
     @Autowired
-    private KafkaTemplate<String, PedidoDTO> kafkaTemplate;
+    private KafkaTemplate<String, PedidoRecord> kafkaTemplate;
 
     @Value("${kafka.topic-pedido}")
     private String kafkaTopic;
 
     public PedidoResponseDTO save(PedidoDTO pedidoDTO) {
         Pedido pedido = pedidoRepository.save(INSTANCE.toPedido(pedidoDTO));
-        kafkaTemplate.send(kafkaTopic, pedidoDTO);
+        kafkaTemplate.send(kafkaTopic, criarPedidoRecord(pedidoDTO));
 
         return INSTANCE.toPedidoDto(pedido);
+    }
+
+    PedidoRecord criarPedidoRecord(PedidoDTO pedidoDTO) {
+        return PedidoRecord.newBuilder()
+                .setNome(pedidoDTO.getNome())
+                .setNumero(pedidoDTO.getNumero())
+                .setValor(pedidoDTO.getValor())
+                .build();
     }
 }

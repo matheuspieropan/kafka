@@ -2,6 +2,8 @@ package com.pieropan.kafka.config;
 
 import com.pieropan.kafka.dto.PedidoDTO;
 import com.pieropan.kafka.serdes.PedidoSerdes;
+import io.confluent.kafka.serializers.KafkaAvroDeserializer;
+import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig;
 import lombok.AllArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Serdes;
@@ -28,7 +30,7 @@ import static org.apache.kafka.streams.StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_C
 @EnableKafkaStreams
 @AllArgsConstructor
 @Configuration
-public class ConsumerConfigKafka {
+public class ConsumerKafkaConfig {
 
     private KafkaProperties kafkaProperties;
 
@@ -38,13 +40,15 @@ public class ConsumerConfigKafka {
 
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, KafkaAvroDeserializer.class);
         config.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
 
         // quantidade máxima de registros (ou mensagens) que um consumidor
         // Kafka pode buscar em uma única chamada para o broker Kafka durante uma operação de polling
         config.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "100");
         config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        config.put("schema.registry.url", "http://localhost:8081");
+        config.put(KafkaAvroDeserializerConfig.SPECIFIC_AVRO_READER_CONFIG, true);
 
         return new DefaultKafkaConsumerFactory<>(config);
     }
