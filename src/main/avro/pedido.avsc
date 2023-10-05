@@ -1,0 +1,19 @@
+{
+  "namespace": "com.pieropan.kafka.avro",
+  "type": "record",
+  "name": "PedidoRecord",
+  "fields": [
+    {
+      "name": "numero",
+      "type": "int"
+    },
+    {
+      "name": "nome",
+      "type": "string"
+    },
+    {
+      "name": "valor",
+      "type": "double"
+    }
+  ]
+}
